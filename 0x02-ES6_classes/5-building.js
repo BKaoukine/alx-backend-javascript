@@ -1,20 +1,21 @@
-/* eslint no-underscore-dangle: 0 */
-
 export default class Building {
   constructor(sqft) {
     this._sqft = sqft;
     if (
-      !Object.prototype.hasOwnProperty.call(this, 'evacuationWarningMessage')
+      this.constructor !== Building
+        && !('evacuationWarningMessage' in this.constructor.prototype)
     ) {
-      throw new Error(
+      throw new TypeError(
         'Class extending Building must override evacuationWarningMessage',
       );
     }
   }
 
+  set sqft(sq) {
+    this._sqft = sq;
+  }
+
   get sqft() {
     return this._sqft;
   }
-
-  static evacuationWarningMessage() {}
 }
